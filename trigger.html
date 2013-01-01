@@ -4,7 +4,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js"></script>
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script>
-var host = "http://eisenhower.emblica.org:443";
+var host = "[host:port where socket.io server is]";
+$(document).ready(function(){
+	if(host == "[host:port where socket.io server is]"){
+		alert("You have to change 'host' variable for your own");
+	}	
+});
 var socket = io.connect(host);
 socket.on('connect', function(){
 	socket.send("status");
