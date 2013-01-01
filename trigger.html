@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Take Photo</title>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js"></script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script>
+var host = "http://eisenhower.emblica.org:443";
+var socket = io.connect(host);
+socket.on('connect', function(){
+	socket.send("status");
+});
+</script>
+<style>
+.take{
+	width: 100px;
+	height: 100px;	
+}
+</style>
+</head>
+<body>
+<button class="take">Take photo</button>
+<div class="images"></div>
+<script>
+$(".take").click(function(){
+        //console.log("naps");
+        socket.emit("change");
+});
+socket.on('ready', function(state){
+	console.log(state);
+	if(state == "0"){
+		$(".take").attr('disabled', 'disabled');
+	}else{
+		$(".take").removeAttr('disabled');
+	}
+});
+var i = 0;
+socket.on('newfile', function(fname){
+	if(i%2==0){
+	$(".images").append("<img src=\""+fname+"\" width=\"400px\" >");
+	}
+	i++;
+});
+</script>
+</body>
+</html>
